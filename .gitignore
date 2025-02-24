@@ -25,3 +25,9 @@ staticfiles/
 
 # SSL
 ssl/
+gestion_vehicules/key.py
+gestion_vehicules/generate_key.py
+.env
+media/
+static/
+ssl/
