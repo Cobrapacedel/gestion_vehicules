@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow p-4 fade-in mx-auto" style="max-width: 400px;">
+    <h2 class="text-center">Connexion</h2>
+
+    <!-- Messages d'alerte -->
+    {% if messages %}
+    <div class="alert alert-warning text-blue">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Formulaire de connexion -->
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+
+        <!-- Champ Nom d'utilisateur -->
+        <div class="mb-3">
+            <label for="id_username" class="form-label">
+                <i class="bi bi-person-circle"></i> Nom d'utilisateur
+            </label>
+            {{ form.username|add_class:"form-control" }}
+            {% if form.username.errors %}
+            <div class="text-danger small" role="alert" aria-live="assertive">
+                {% for error in form.username.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Champ Mot de passe -->
+        <div class="mb-3">
+            <label for="id_password" class="form-label">
+                <i class="bi bi-lock"></i> Mot de passe
+            </label>
+            {{ form.password|add_class:"form-control" }}
+            {% if form.password.errors %}
+            <div class="text-danger small" role="alert" aria-live="assertive">
+                {% for error in form.password.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Bouton de connexion -->
+        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+    </form>
+
+    <!-- Lien d'inscription et de récupération de mot de passe -->
+    <p class="text-center mt-3">
+        <a href="{% url 'password_reset' %}" class="text-decoration-none">Mot de passe oublié ?</a>
+    </p>
+    <p class="text-center">
+        Pas encore de compte ? <a href="{% url 'register' %}" class="text-decoration-none">Inscrivez-vous</a>
+    </p>
+</div>
+{% endblock %}

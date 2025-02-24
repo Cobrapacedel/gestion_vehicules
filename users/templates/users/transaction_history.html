@@ -1,0 +1,22 @@
+<!-- transaction_history.html -->
+<h2>Historique des Transactions de Péage</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Station de Péage</th>
+            <th>Montant</th>
+            <th>Date</th>
+            <th>Mode de Paiement</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.toll_station.name }}</td>
+            <td>{{ transaction.amount }} €</td>
+            <td>{{ transaction.transaction_date }}</td>
+            <td>{{ transaction.payment_method }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

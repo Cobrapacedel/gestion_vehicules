@@ -1,0 +1,46 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Détails du véhicule</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <ul class="list-unstyled">
+        <li><strong>Marque:</strong> {{ vehicle.brand.name }}</li>
+        <li><strong>Modèle:</strong> {{ vehicle.model.name }}</li>
+        <li><strong>Année:</strong> {{ vehicle.year }}</li>
+        <li><strong>Numéro de plaque:</strong> {{ vehicle.license_plate }}</li>
+        <li><strong>Couleur:</strong> {{ vehicle.color }}</li>
+        <li><strong>Numéro de série (VIN):</strong> {{ vehicle.vin_number }}</li>
+        <li><strong>Date d'achat:</strong> {{ vehicle.purchase_date }}</li>
+        <li><strong>Kilométrage:</strong> {{ vehicle.mileage }} km</li>
+
+        <!-- Affichage de l'assurance -->
+        <li>
+          <strong>Assurance:</strong>
+          {% if vehicle.is_insurance_expiring_soon %}
+            <span class="text-warning">L'assurance expire bientôt (moins de 30 jours)</span>
+          {% else %}
+            <span class="text-success">Assurance valide</span>
+          {% endif %}
+        </li>
+
+        <!-- Affichage du contrôle technique -->
+        <li>
+          <strong>Contrôle technique:</strong>
+          {% if vehicle.is_technical_control_due %}
+            <span class="text-warning">Le contrôle technique est bientôt dû (moins de 30 jours)</span>
+          {% else %}
+            <span class="text-success">Contrôle technique à jour</span>
+          {% endif %}
+        </li>
+      </ul>
+
+      <!-- Lien pour accéder à la gestion des documents -->
+      <a href="{% url 'vehicle_documents' vehicle.id %}" class="btn btn-primary mt-3">Gérer les documents</a>
+
+      <!-- Lien pour revenir à la liste des véhicules -->
+      <a href="{% url 'vehicle_list' %}" class="btn btn-secondary mt-3">Retour à la liste des véhicules</a>
+    </div>
+  </div>
+{% endblock %}

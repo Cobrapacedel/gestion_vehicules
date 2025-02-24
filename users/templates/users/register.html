@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow p-4 fade-in mx-auto" style="max-width: 400px;">
+    <h2 class="text-center mb-4">Inscription</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Nom d'utilisateur -->
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Nom d'utilisateur</label>
+            {{ user_form.username|add_class:"form-control" }}
+            {% if user_form.username.errors %}
+                <div class="text-danger">
+                    {% for error in user_form.username.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            {{ user_form.email|add_class:"form-control" }}
+            {% if user_form.email.errors %}
+                <div class="text-danger">
+                    {% for error in user_form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="mb-3">
+            <label for="id_password" class="form-label">Mot de passe</label>
+            {{ user_form.password1|add_class:"form-control" }}
+            {% if user_form.password1.errors %}
+                <div class="text-danger">
+                    {% for error in user_form.password1.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Confirmer le mot de passe -->
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">Confirmer le mot de passe</label>
+            {{ user_form.password2|add_class:"form-control" }}
+            {% if user_form.password2.errors %}
+                <div class="text-danger">
+                    {% for error in user_form.password2.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Document d'identité -->
+        <div class="mb-3">
+            <label for="id_identity_document" class="form-label">Document d'identité</label>
+            {{ profile_form.identity_document|add_class:"form-control" }}
+            {% if profile_form.identity_document.errors %}
+                <div class="text-danger">
+                    {% for error in profile_form.identity_document.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Bouton d'inscription -->
+        <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+    </form>
+
+    <p class="text-center mt-3">
+        Déjà un compte ? <a href="{% url 'login' %}" class="text-decoration-none">Connectez-vous</a>
+    </p>
+
+    {% if messages %}
+        <div class="alert alert-warning mt-3">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+# Environnement virtuel
+monenv/
+venv/
+
+# Clés secrètes et configurations locales
+.env
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de données SQLite (si applicable)
+db.sqlite3
+*.sqlite3
+
+# Logs
+*.log
+
+# Dossiers de fichiers statiques et médias
+media/
+static/
+staticfiles/
+
+# SSL
+ssl/

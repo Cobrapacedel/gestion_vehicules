@@ -1,0 +1,39 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Documents du véhicule {{ vehicle }}</h1>
+
+  {% if documents %}
+    <ul class="list-group">
+      {% for document in documents %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ document.document_type }} 
+          <a href="{% url 'download_document' document.id %}" class="btn btn-sm btn-primary">Télécharger</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Aucun document n'est associé à ce véhicule.</p>
+  {% endif %}
+  
+  <a href="{% url 'vehicle_detail' pk=vehicle.id %}" class="btn btn-secondary mt-3">Retour au véhicule</a>
+  
+  <hr>
+
+  <!-- Formulaire pour ajouter un document -->
+  <h3>Ajouter un document</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="document_type">Type de document</label>
+      <input type="text" id="document_type" name="document_type" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="file">Fichier</label>
+      <input type="file" id="file" name="file" class="form-control" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success mt-3">Ajouter le document</button>
+  </form>
+{% endblock %}

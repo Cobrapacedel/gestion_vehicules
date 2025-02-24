@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="text-center">Profil de {{ user.username }}</h2>
+    
+    <div class="profile-details p-4 border rounded shadow-sm">
+      <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+      <p><strong>Email :</strong> {{ user.email }}</p>
+      <p><strong>Téléphone :</strong> {% if profile.phone_number %}{{ profile.phone_number }}{% else %}Non renseigné{% endif %}</p>
+      <p><strong>Adresse :</strong> {% if profile.address %}{{ profile.address }}{% else %}Non renseignée{% endif %}</p>
+      <p><strong>Bio :</strong> {% if profile.bio %}{{ profile.bio }}{% else %}Non renseignée{% endif %}</p>
+
+      <!-- Avatar -->
+      <div class="avatar-container mb-3 text-center">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" alt="Avatar de {{ user.username }}" class="rounded-circle" width="150">
+        {% else %}
+          <img src="https://www.gravatar.com/avatar/{{ user.email|default_if_none:'no-reply@example.com'|hash_email }}" alt="Avatar par défaut" class="rounded-circle" width="150">
+          <p class="text-muted mt-2">Aucun avatar défini</p>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Bouton pour modifier le profil -->
+    <div class="text-center mt-3">
+      <a href="{% url 'edit_profile' %}" class="btn btn-primary">Modifier le profil</a>
+    </div>
+  </div>
+{% endblock %}

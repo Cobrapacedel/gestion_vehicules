@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Ajouter un véhicule</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      {{ form.as_p }}
+    </div>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        <strong>Attention !</strong> Il y a des erreurs dans le formulaire. Veuillez vérifier les champs.
+      </div>
+    {% endif %}
+    
+    <button type="submit" class="btn btn-primary mt-3">Ajouter le véhicule</button>
+  </form>
+{% endblock %}

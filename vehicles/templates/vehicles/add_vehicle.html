@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center">Ajouter un véhicule</h2>
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <!-- Marque -->
+      <div class="mb-3">
+          <label for="id_brand" class="form-label">Marque :</label>
+          <select id="id_brand" name="brand" class="form-control" onchange="updateModels()" required>
+              <option value="">Sélectionner une marque</option>
+              {% for brand in brands %}
+                  <option value="{{ brand.id }}">{{ brand.name }}</option>
+              {% endfor %}
+          </select>
+          {% if form.brand.errors %}
+              <div class="text-danger">
+                  {% for error in form.brand.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Modèle -->
+      <div class="mb-3">
+          <label for="id_model" class="form-label">Modèle :</label>
+          <select id="id_model" name="model" class="form-control" required>
+              <option value="">Sélectionner un modèle</option>
+          </select>
+          {% if form.model.errors %}
+              <div class="text-danger">
+                  {% for error in form.model.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Année -->
+      <div class="mb-3">
+          <label for="id_year" class="form-label">Année :</label>
+          <input type="number" name="year" id="id_year" class="form-control" required>
+          {% if form.year.errors %}
+              <div class="text-danger">
+                  {% for error in form.year.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Plaque d'immatriculation -->
+      <div class="mb-3">
+          <label for="id_license_plate" class="form-label">Plaque d'immatriculation :</label>
+          <input type="text" name="license_plate" id="id_license_plate" class="form-control" required>
+          {% if form.license_plate.errors %}
+              <div class="text-danger">
+                  {% for error in form.license_plate.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Kilométrage -->
+      <div class="mb-3">
+          <label for="id_mileage" class="form-label">Kilométrage :</label>
+          <input type="number" name="mileage" id="id_mileage" class="form-control" required>
+          {% if form.mileage.errors %}
+              <div class="text-danger">
+                  {% for error in form.mileage.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Permis de conduire -->
+      <div class="mb-3">
+          <label for="id_driver_license" class="form-label">Permis de conduire :</label>
+          <input type="file" name="driver_license" id="id_driver_license" class="form-control" required accept=".jpg, .jpeg, .png, .pdf">
+          {% if form.driver_license.errors %}
+              <div class="text-danger">
+                  {% for error in form.driver_license.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Document d'achat -->
+      <div class="mb-3">
+          <label for="id_purchase_document" class="form-label">Document d'achat :</label>
+          <input type="file" name="purchase_document" id="id_purchase_document" class="form-control" required accept=".jpg, .jpeg, .png, .pdf">
+          {% if form.purchase_document.errors %}
+              <div class="text-danger">
+                  {% for error in form.purchase_document.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Vignette -->
+      <div class="mb-3">
+          <label for="id_vignette_document" class="form-label">Vignette :</label>
+          <input type="file" name="vignette_document" id="id_vignette_document" class="form-control" required accept=".jpg, .jpeg, .png, .pdf">
+          {% if form.vignette_document.errors %}
+              <div class="text-danger">
+                  {% for error in form.vignette_document.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Carte grise -->
+      <div class="mb-3">
+          <label for="id_registration_document" class="form-label">Carte grise :</label>
+          <input type="file" name="registration_document" id="id_registration_document" class="form-control" required accept=".jpg, .jpeg, .png, .pdf">
+          {% if form.registration_document.errors %}
+              <div class="text-danger">
+                  {% for error in form.registration_document.errors %}
+                      <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+
+      <!-- Bouton de soumission -->
+      <button type="submit" class="btn btn-primary w-100">Ajouter le véhicule</button>
+  </form>
+</div>
+
+<!-- Lien retour à la liste des véhicules -->
+<a href="{% url 'vehicle_list' %}" class="btn btn-secondary mt-4">Retour à la liste des véhicules</a>
+
+{% block extra_js %}
+<script>
+  function updateModels() {
+    var brandId = document.getElementById('id_brand').value;
+    var modelSelect = document.getElementById('id_model');
+    
+    fetch(`/get_models/${brandId}/`)  // Une vue Django qui renvoie les modèles de la marque
+      .then(response => response.json())
+      .then(data => {
+        modelSelect.innerHTML = '<option value="">Sélectionner un modèle</option>';
+        data.models.forEach(function(model) {
+          var option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  }
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Mes véhicules</h2>
+  <ul>
+    {% for vehicle in vehicles %}
+      <li>
+        <strong>{{ vehicle }} ({{ vehicle.year }})</strong><br>  <!-- Affiche la méthode __str__ du véhicule -->
+        Plaque d'immatriculation: {{ vehicle.license_plate }}<br>
+        Kilométrage: {{ vehicle.mileage }} km<br>
+        <a href="{% url 'edit_vehicle' vehicle.id %}" class="btn btn-secondary btn-sm">Modifier</a> |
+        <a href="{% url 'delete_vehicle' vehicle.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</a>
+      </li>
+    {% empty %}
+      <li>Aucun véhicule trouvé.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'add_vehicle' %}" class="btn btn-success mt-3">Ajouter un nouveau véhicule</a>
+
+  <!-- Message de succès après l'ajout ou la suppression -->
+  {% if messages %}
+    <div class="alert alert-info mt-3">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

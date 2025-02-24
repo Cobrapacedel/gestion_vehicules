@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Résultats de la recherche</h2>
+
+  <!-- Formulaire de recherche -->
+  <form method="get" action="{% url 'search' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+  </form>
+
+  <!-- Affichage des résultats de recherche -->
+  {% if results %}
+    <h3>Véhicules trouvés</h3>
+    <ul class="vehicle-list">
+      {% for vehicle in results %}
+        <li>
+          <strong>{{ vehicle.brand.name }}</strong> - {{ vehicle.model.name }} ({{ vehicle.year }})  
+          - <span class="license">{{ vehicle.license_plate }}</span>
+          <a href="{% url 'vehicle_detail' vehicle.id %}" class="btn btn-sm btn-info">Détails</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">Aucun véhicule trouvé pour votre recherche.</p>
+  {% endif %}
+{% endblock %}

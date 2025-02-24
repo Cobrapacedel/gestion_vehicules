@@ -1,0 +1,8 @@
+<!-- add_funds.html -->
+<h2>Ajouter des Fonds pour les Péages</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="amount">Montant à ajouter :</label>
+    <input type="number" name="amount" id="amount" required>
+    <button type="submit">Ajouter des Fonds</button>
+</form>
